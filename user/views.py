@@ -46,8 +46,7 @@ def logout(request):
 
 
 def updateform(request):
-    no = request.session['authuser'][str('no')]
-    no = str(no)
+    no = request.session['authuser']['no']
 
     # 1. 데이터를 가져오기
     result = usermodels.fetchonebyno(no)
@@ -59,8 +58,3 @@ def updateform(request):
 def update(request):
     no = request.session['authuser']['no']
     name = request.POST['name']
-
-    request.session['authuser'] = {'no': no, 'name': name}
-
-    return HttpResponseRedirect('/main')
-

@@ -1,8 +1,14 @@
-from django.test import TestCase
+from django.shortcuts import render
 import user.models as usermodels
 
 
-def test_usermodels_insert():
-    usermodels.insert('마이콜', 'michol@gmail.com', '1234', 'male')
+def updateform(request):
+    no = request.session['authuser']['no']
 
+    # 1. 데이터를 가져오기
+    result = usermodels.fetchonebyno(no)
+    data = {'user': result}
+    print(no)
+    print(data)
+    return render(request, 'user/updateform.html', data)
 

@@ -25,7 +25,7 @@ def fetchone(email, password):
     cursor = conn.cursor(DictCursor)
 
     sql = '''
-        select email, password
+        select no, email, password
           from user
          where email=%s
            and password=password(%s)
@@ -41,7 +41,7 @@ def fetchone(email, password):
     return result
 
 
-def fatchonebyno(no):
+def fetchonebyno(no):
     conn = getconnection()
     cursor = conn.cursor(DictCursor)
 
@@ -49,9 +49,10 @@ def fatchonebyno(no):
         select no, name, email, gender
           from user
          where no=%s
-
+    
     '''
-    cursor.execute(sql)
+    no = str(no)
+    cursor.execute(sql, no)
     result = cursor.fetchonebyno()
 
     # 자원 정리
