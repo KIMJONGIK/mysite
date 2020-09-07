@@ -58,3 +58,11 @@ def updateform(request):
 def update(request):
     no = request.session['authuser']['no']
     name = request.POST['name']
+    gender = request.POST['gender']
+
+    if request.POST['password'] != '':
+        password = request.POST['password']
+        usermodels.updateuser1(name, password, gender, no)
+    else:
+        usermodels.updateuser2(name, gender, no)
+    return HttpResponseRedirect('/user/logout')

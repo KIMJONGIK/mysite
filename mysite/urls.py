@@ -35,7 +35,7 @@ urlpatterns = [
     path('user/login', userviews.login),
     path('user/logout', userviews.logout),
     path('user/updateform', userviews.updateform),
-    path('user/update', userviews.updateform),
+    path('user/update', userviews.update),
 
     path('admin/', admin.site.urls),
 ]
