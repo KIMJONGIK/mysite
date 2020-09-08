@@ -49,8 +49,44 @@ def fetchonebyno(no):
           from user
           where no= (%s);
     '''
-    cursor.execute(sql, str(no))
+    cursor.execute(sql, (no,))
     result = cursor.fetchone()
+    # 자원정리
+    cursor.close()
+    conn.close()
+
+    return result
+
+
+def updateuser1(name, password, gender, no):
+    conn = getconnection()
+    cursor = conn.cursor(DictCursor)
+    sql = '''
+    update user
+	    set name = %s, password = password(%s), gender = %s
+        where no = (%s);
+    '''
+    cursor.execute(sql, (name, password, gender, no))
+    result = cursor.fetchone()
+    conn.commit()
+    # 자원정리
+    cursor.close()
+    conn.close()
+
+    return result
+
+
+def updateuser2(name, gender, no):
+    conn = getconnection()
+    cursor = conn.cursor(DictCursor)
+    sql = '''
+    update user
+    	set name = %s, gender = %s
+        where no = (%s);
+    '''
+    cursor.execute(sql, (name, gender, no))
+    result = cursor.fetchone()
+    conn.commit()
     # 자원정리
     cursor.close()
     conn.close()
@@ -68,37 +104,3 @@ def getconnection():
         charset='utf8')
 
 
-def updateuser1(name, password, gender, no):
-    conn = getconnection()
-    cursor = conn.cursor(DictCursor)
-    sql = '''
-    update user
-	    set name= %s, password=password(%s), gender= %s
-       where no = (%s);
-    '''
-    cursor.execute(sql, (name, password, gender, str(no)))
-    result = cursor.fetchone()
-    conn.commit()
-    # 자원정리
-    cursor.close()
-    conn.close()
-
-    return result
-
-
-def updateuser2(name, gender, no):
-    conn = getconnection()
-    cursor = conn.cursor(DictCursor)
-    sql = '''
-    update user
-    	set name= %s, gender= %s
-        where no = (%s);
-    '''
-    cursor.execute(sql, (name, gender, str(no)))
-    result = cursor.fetchone()
-    conn.commit()
-    # 자원정리
-    cursor.close()
-    conn.close()
-
-    return result

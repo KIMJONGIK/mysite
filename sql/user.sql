@@ -26,3 +26,7 @@ update user
 update user
    set name='...', password=password('....'), gender='...'
   where no=2;
+  
+  
+  select *
+	from user
