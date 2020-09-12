@@ -2,6 +2,8 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 
 import board.models as boardmodels
+import user.models as usermodels
+
 
 def index(request):
     page = request.GET['page']
@@ -14,20 +16,11 @@ def write(request):
     return render(request, 'board/write.html')
 
 
-def writedata(request):
-    title = request.POST['title']
-    content = request.POST['content']
-    boardmodels.register(title, content)
-
-    return HttpResponseRedirect('/board/write')
-
-
 def register(request):
     title = request.POST['title']
     content = request.POST['content']
-    name = request.POS['name']
-
-    boardmodels.register(title, content, name)
+    no = request.session['authuser']['no']
+    boardmodels.register(title, content, no)
 
     return HttpResponseRedirect('/board?page=1')
 
@@ -43,7 +36,6 @@ def view(request):
 
 def delete(request):
     no = request.GET['no']
-
     boardmodels.delete(no)
+    return HttpResponseRedirect('/board?page=1')
 
-    return HttpResponseRedirect('/board')

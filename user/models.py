@@ -102,5 +102,3 @@ def getconnection():
         port=3306,
         db='mysite',
         charset='utf8')
-
-

@@ -38,9 +38,11 @@
 						<td>{{board.hit}}</td>
 						<td>{{board.reg_date}}</td>
 
-
-						<td><a href="/board/delete"class="del"><img src="/assets/images/recycle.png">삭제</a></td>
-
+					{% if request.session.authuser.no == board.user_no %}
+						<td><a href="/board/delete?no={{ board.no }}"class="del"><img src="/assets/images/recycle.png">삭제</a></td>
+					{% else %}
+						<td></a></td>
+					{% endif %}
 
 					</tr>
 					{% endfor %}

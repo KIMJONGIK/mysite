@@ -2,10 +2,8 @@ from MySQLdb import connect
 from MySQLdb.cursors import DictCursor
 from django.db import models
 
-# Create your models here.
 
-
-def register(title, content):
+def register(title, content, no):
     conn = getconnection()
     cursor = conn.cursor()
 
@@ -20,9 +18,9 @@ def register(title, content):
                 ifnull((select max(g_no) from board a), 0) + 1,
                 1,
                 1,
-                1);
+                %s);
     '''
-    cursor.execute(sql, [title, content])
+    cursor.execute(sql, [title, content, (no,)])
     conn.commit()
 
     # 자원 정리
@@ -67,11 +65,13 @@ def fetchone(no):
     conn = getconnection()
     cursor = conn.cursor(DictCursor)
 
-    cursor.execute('''
-        select * from board
-        where no = %s
-    ''', [no])
-
+    sql = '''
+        select b.no as board_no, b.title, b.content, u.no as user_no
+        from board as b, user as u
+        where b.user_no = u.no
+        and b.no=%s
+    '''
+    cursor.execute(sql, no)
     result = cursor.fetchone()
 
     cursor.close()
@@ -84,7 +84,7 @@ def delete(no):
     cursor = conn.cursor()
 
     sql = 'delete from board where no=%s'
-    cursor.execute(sql, (no,))
+    cursor.execute(sql, [no])
     conn.commit()
 
     # 자원 정리
