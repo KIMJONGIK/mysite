@@ -32,7 +32,7 @@ def fetchlist(page):
     conn = getconnection()
     cursor = conn.cursor(DictCursor)
 
-    pages = (int(page)-1)*5
+    pages = (int(page) - 1) * 5
 
     sql = '''
         select b.no,
@@ -104,6 +104,18 @@ def hit(no):
     conn.close()
 
 
+def modify(title, content, no):
+    conn = getconnection()
+    cursor = conn.cursor()
+
+    sql = 'update board set title=%s, content=%s where no=%s;'
+    cursor.execute(sql, [title, content, (no,)])
+    conn.commit()
+
+    cursor.close()
+    conn.close()
+
+
 def getconnection():
     return connect(
         user='mysite',
@@ -112,4 +124,3 @@ def getconnection():
         port=3306,
         db='mysite',
         charset='utf8')
-

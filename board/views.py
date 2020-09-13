@@ -2,7 +2,6 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 
 import board.models as boardmodels
-import user.models as usermodels
 
 
 def index(request):
@@ -30,7 +29,6 @@ def view(request):
     result = boardmodels.fetchone(no)
     boardmodels.hit(no)
     data = {'view': result}
-
     return render(request, 'board/view.html', data)
 
 
@@ -38,4 +36,22 @@ def delete(request):
     no = request.GET['no']
     boardmodels.delete(no)
     return HttpResponseRedirect('/board?page=1')
+
+
+def modifyform(request):
+    no = request.GET['no']
+    result = boardmodels.fetchone(no)
+    data = {'modify': result}
+    return render(request, 'board/modify.html', data)
+
+
+def modify(request):
+    no = request.GET['no']
+    result = boardmodels.fetchone(no)
+    data = {'modify': result}
+    title = request.POST['title']
+    content = request.POST['content']
+    boardmodels.modify(title, content, no)
+
+    return HttpResponseRedirect('/board?page=1', data)
 
