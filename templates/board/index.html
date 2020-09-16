@@ -41,7 +41,7 @@
 					{% if request.session.authuser.no == board.user_no %}
 						<td><a href="/board/delete?no={{ board.no }}"class="del"><img src="/assets/images/recycle.png">삭제</a></td>
 					{% else %}
-						<td></a></td>
+						<td><a></a></td>
 					{% endif %}
 
 					</tr>
@@ -52,15 +52,38 @@
 				<!-- pager 추가 -->
 				<div class="pager">
 					<ul>
-						<li><a href="">◀</a></li>
-						<li><a href="">1</a></li>
-						<li class="selected">2</li>
-						<li><a href="">3</a></li>
-						<li>4</li>
-						<li>5</li>
-						<li><a href="">▶</a></li>
+						{% if page == '1' %}
+						<li class="selected">{{ page }}</li>
+						<li><a href="/board?page={{ page|add:1 }}">{{ page|add:1 }}</a></li>
+						<li><a href="/board?page={{ page|add:2 }}">{{ page|add:2 }}</a></li>
+						<li><a href="/board?page={{ page|add:3 }}">{{ page|add:3 }}</a></li>
+						<li><a href="/board?page={{ page|add:4 }}">{{ page|add:4 }}</a></li>
+						<li><a href="/board?page={{ page|add:1 }}">▶</a></li>
+
+
+						{% elif page == '2' %}
+						<li><a href="/board?page={{ page|sub:1 }}">◀</a></li>
+						<li><a href="/board?page={{ page|sub:1 }}">{{ page|sub:1 }}</a></li>
+						<li class="selected">{{ page }}</li>
+						<li><a href="/board?page={{ page|add:1 }}">{{ page|add:1 }}</a></li>
+						<li><a href="/board?page={{ page|add:2 }}">{{ page|add:2 }}</a></li>
+						<li><a href="/board?page={{ page|add:3 }}">{{ page|add:3 }}</a></li>
+						<li><a href="/board?page={{ page|add:1 }}">▶</a></li>
+
+
+						{% else %}
+
+						<li><a href="/board?page={{ page|sub:1 }}">◀</a></li>
+						<li><a href="/board?page={{ page|sub:2 }}">{{ page|sub:2 }}</a></li>
+						<li><a href="/board?page={{ page|sub:1 }}">{{ page|sub:1 }}</a></li>
+						<li class="selected">{{ page }}</li>
+						<li><a href="/board?page={{ page|add:1 }}">{{ page|add:1 }}</a></li>
+						<li><a href="/board?page={{ page|add:2 }}">{{ page|add:2 }}</a></li>
+						<li><a href="/board?page={{ page|add:1 }}">▶</a></li>
+						{% endif %}
+
 					</ul>
-				</div>					
+				</div>
 				<!-- pager 추가 -->
 				
 				<div class="bottom">

@@ -71,7 +71,7 @@ def fetchone(no):
         where b.user_no = u.no
         and b.no=%s
     '''
-    cursor.execute(sql, no)
+    cursor.execute(sql, (no,))
     result = cursor.fetchone()
 
     cursor.close()

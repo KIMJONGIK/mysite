@@ -1,10 +1,11 @@
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 import board.models as boardmodels
 
 
 def index(request):
+    page_list = {}
     page = request.GET['page']
     results = boardmodels.fetchlist(page)
     data = {'boardlist': results, 'page': page}
@@ -54,4 +55,3 @@ def modify(request):
     boardmodels.modify(title, content, no)
 
     return HttpResponseRedirect('/board?page=1', data)
-
